@@ -68,16 +68,16 @@ public class User implements Serializable {
         this.login = login;
     }
 
-    public User(UserDTO userDTO) {
+    /*public User(UserDTO userDTO) {
         this.setId(userDTO.getId());
         this.setLogin(userDTO.getLogin());
         this.setPassword(userDTO.getPassword());
-    }
+    }*/
 
-    public User(UserRegistrationForm userRegistrationForm) {
+    /*public User(UserRegistrationForm userRegistrationForm) {
         this.setLogin(userRegistrationForm.getLogin());
         this.setPassword(userRegistrationForm.getPassword());
-    }
+    }*/
 
     public User(Long id, String login, String password, Integer active) {
         this.id = id;

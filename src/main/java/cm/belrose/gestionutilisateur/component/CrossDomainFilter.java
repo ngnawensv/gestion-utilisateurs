@@ -16,10 +16,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * @author PC-NGNAWEN
+ *
+ * ce filtre permet d'autoriser les requêtes Cross Domain (requêtes entre deux réseaux distincts)
  */
 @Component
 public class CrossDomainFilter extends OncePerRequestFilter {
-
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
@@ -27,7 +28,7 @@ public class CrossDomainFilter extends OncePerRequestFilter {
 
         httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
 
-        httpServletResponse.addHeader("Access-Control-Allow-Headers", "origin,contenttype,accept,x-req");
+        httpServletResponse.addHeader("Access-Control-Allow-Headers", "origin,content-type,accept,x-req");
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }

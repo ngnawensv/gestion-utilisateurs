@@ -6,23 +6,25 @@
 package cm.belrose.gestionutilisateur.services;
 
 import cm.belrose.gestionutilisateur.entities.User;
+import cm.belrose.gestionutilisateur.exception.ResourceNotFoundException;
 
 import java.util.Collection;
 import java.util.Optional;
 
 /**
- *
  * @author PC-NGNAWEN
  */
 public interface UserService {
-    
+
     Collection<User> getAllUsers();
-    
-    Optional<User> getUserById(Long id);
-    
-    User findByLogin(String login);
-    
-    User saveOrUpdateUser(User user);
-    
-    void deleteUser(Long id);
+
+    Optional<User> findUserById(Long id) throws ResourceNotFoundException;
+
+    Optional<User> findByLogin(String login) throws ResourceNotFoundException;
+
+    User saveOrUpdateUser(User user) throws ResourceNotFoundException;
+
+    void deleteUser(Long id) throws ResourceNotFoundException;
+
+    Optional<User> findByLoginAndPassword(String login, String password) throws ResourceNotFoundException;
 }

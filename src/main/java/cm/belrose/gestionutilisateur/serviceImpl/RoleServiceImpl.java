@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cm.belrose.gestionutilisateur.services.impl;
+package cm.belrose.gestionutilisateur.serviceImpl;
 
 
 import java.util.Collection;
@@ -25,6 +25,10 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleDao roleDao;
+
+    public RoleServiceImpl() {
+        super();
+    }
 
     @Override
     public Role FindByRoleName(String roleName) {
