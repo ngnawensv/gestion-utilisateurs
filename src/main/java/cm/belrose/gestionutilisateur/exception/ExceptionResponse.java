@@ -11,6 +11,7 @@ public class ExceptionResponse {
     private String errorCode;
     private String errorMessage;
     private String requestURL;
+    private HttpStatus status;
 
     public ExceptionResponse() {
     }
@@ -25,6 +26,14 @@ public class ExceptionResponse {
         this.errorMessage = errorMessage;
         this.requestURL = requestURL;
     }
+
+    public ExceptionResponse(String errorCode, String errorMessage, String requestURL, HttpStatus status) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+        this.requestURL = requestURL;
+        this.status = status;
+    }
+
     public String getErrorCode() {
         return errorCode;
     }
@@ -47,5 +56,13 @@ public class ExceptionResponse {
     }
     public String getRequestURL(){
         return requestURL;
+    }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
     }
 }

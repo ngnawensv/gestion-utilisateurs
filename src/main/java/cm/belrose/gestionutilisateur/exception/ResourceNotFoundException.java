@@ -57,4 +57,6 @@ public class ResourceNotFoundException extends Exception {
 	public void setStatus(HttpStatus status) {
 		this.status = status;
 	}
+
+
 }

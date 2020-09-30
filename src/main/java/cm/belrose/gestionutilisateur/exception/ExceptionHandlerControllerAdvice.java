@@ -43,7 +43,8 @@ public class ExceptionHandlerControllerAdvice {
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public  ExceptionResponse resourceNotFound(ResourceNotFoundException ex, HttpServletRequest req) {
         ExceptionResponse error = new ExceptionResponse();
-        error.setErrorCode(ex.getErrorCode());
+        error.setStatus(ex.getStatus());
+        error.setErrorCode(HttpStatus.NOT_FOUND.value()+":"+ex.getErrorCode());
         error.setErrorMessage(ex.getMessage());
         error.setRequestURL(req.getRequestURL().toString());
         return error;

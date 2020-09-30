@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findUserById(Long id) throws ResourceNotFoundException {
         Optional<User> userFound = userDao.findById(id);
         if (userFound.isEmpty()) {
-            throw new ResourceNotFoundException(" User Not Found", "L'utilisateur avec l' id " + id+" iniexistant");
+            throw new ResourceNotFoundException(" Utilisateur introuvable", "L'utilisateur avec l' id " + id+" iniexistant",HttpStatus.NOT_FOUND);
         }
         return userFound;
     }
