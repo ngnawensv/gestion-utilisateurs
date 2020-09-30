@@ -41,7 +41,7 @@ public class ExceptionHandlerControllerAdvice {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public  @ResponseBody ExceptionResponse resourceNotFound(ResourceNotFoundException ex, HttpServletRequest req) {
+    public  ExceptionResponse resourceNotFound(ResourceNotFoundException ex, HttpServletRequest req) {
         ExceptionResponse error = new ExceptionResponse();
         error.setErrorCode(ex.getErrorCode());
         error.setErrorMessage(ex.getMessage());
@@ -51,7 +51,7 @@ public class ExceptionHandlerControllerAdvice {
 
     @ExceptionHandler(Exception.class)//toutes les autres erreurs non gérées sont interceptées ici
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public @ResponseBody ExceptionResponse unknowError(Exception ex,HttpServletRequest req) {
+    public ExceptionResponse unknowError(Exception ex,HttpServletRequest req) {
         ExceptionResponse error = new ExceptionResponse();
         error.setErrorCode("Technical Error");
         error.setErrorMessage(ex.getMessage());
