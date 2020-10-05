@@ -29,33 +29,66 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- Base de données utilisée par l'execution de l'application -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- Base de données pour les tests -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!--	Le mot de passe utilisateur sera encrypté afin d'éviter de le stocker en clair dans la base de données	-->
+        <!-- Spring Security: juste pour hacher le mot de passe -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <!--		Pour utiliser les Collections Apache-->
+        <!-- Permet l'utilisation des collections Apache -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>4.0</version>
         </dependency>
+        <!-- Dépendances pour les tests uniquement -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
+        <!--<dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <scope>test</scope>
+        </dependency>-->
+        <!--<dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>test</scope>
+        </dependency>-->
+        <!-- Framework de test fournit pas Spring Boot-->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>-->
+        <!--<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+            <scope>test</scope>
+        </dependency>-->
+
     </dependencies>
 
     <build>

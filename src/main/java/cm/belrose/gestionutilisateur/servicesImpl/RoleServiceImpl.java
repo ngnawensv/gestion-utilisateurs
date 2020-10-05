@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cm.belrose.gestionutilisateur.serviceImpl;
+package cm.belrose.gestionutilisateur.servicesImpl;
 
 
 import java.util.Collection;

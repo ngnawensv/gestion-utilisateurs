@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class GestionutilisateurApplication  implements CommandLineRunner {
-	@Autowired
-	private InitUserService initUserService;
+	//@Autowired
+	//private InitUserService initUserService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GestionutilisateurApplication.class, args);
