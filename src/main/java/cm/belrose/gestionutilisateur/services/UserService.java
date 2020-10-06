@@ -7,13 +7,15 @@ package cm.belrose.gestionutilisateur.services;
 
 import cm.belrose.gestionutilisateur.entities.User;
 import cm.belrose.gestionutilisateur.exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
 
 /**
- * @author PC-NGNAWEN
+ * @author Ngnawen Samuel
  */
+//@Service(value = "userService")
 public interface UserService {
 
     Collection<User> getAllUsers();

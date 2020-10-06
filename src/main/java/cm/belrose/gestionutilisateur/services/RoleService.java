@@ -6,14 +6,16 @@
 package cm.belrose.gestionutilisateur.services;
 
 import cm.belrose.gestionutilisateur.entities.Role;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.stream.Stream;
 
 /**
  *
- * @author PC-NGNAWEN
+ * @author Ngnawen Samuel
  */
+//@Service
 public interface RoleService {
 
     Role FindByRoleName(String roleName);

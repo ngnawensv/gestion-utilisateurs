@@ -18,9 +18,9 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author PC-NGNAWEN
+ * @author Ngnawen Samuel
  */
-@Service(value="roleService")
+@Service
 public class RoleServiceImpl implements RoleService {
 
     @Autowired

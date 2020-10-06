@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @author PC-NGNAWEN
+ * @author Ngnawen Samuel
  */
 //@Service(value = "userService")//l'annotation @Service est optionnelle ici, car il n'existe qu'une seule implementation
 @Service
