@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findByLogin(String login) throws ResourceNotFoundException {
         Optional<User> userFound = userDao.findByLogin(login);
-        if (Boolean.FALSE.equals(userFound.isPresent())) {
+        if (userFound.isEmpty()) {
             throw new ResourceNotFoundException("User Not Found", "L'utilisateur avec ce login n'existe pas : " + login);
         }
         return userFound;

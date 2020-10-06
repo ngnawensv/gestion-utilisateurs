@@ -7,6 +7,7 @@ package cm.belrose.gestionutilisateur.dao;
 
 import cm.belrose.gestionutilisateur.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -19,7 +20,6 @@ import java.util.Optional;
  */
 @Repository
 public interface UserDao extends JpaRepository<User, Long> {
-
     //@Query(value = "select u from User u where u.login = ?1")
     Optional<User> findByLogin(String loginParam);
 

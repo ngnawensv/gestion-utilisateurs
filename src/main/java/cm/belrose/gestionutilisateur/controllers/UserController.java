@@ -68,7 +68,7 @@ public class UserController { //pas de logique métier dans le contrôleur, mais
         return new ResponseEntity<User>(userFound.get(), HttpStatus.FOUND);
     }
 
-    @GetMapping(value = "/users/{id}")
+    @GetMapping(value = "/users/id/{id}")
     public ResponseEntity<User> findUserById(@PathVariable("id") Long id) throws ResourceNotFoundException {
         Optional<User> userFound = userService.findUserById(id);
         return new ResponseEntity<>(userFound.get(), HttpStatus.FOUND);
@@ -77,10 +77,10 @@ public class UserController { //pas de logique métier dans le contrôleur, mais
     /**
      * Service REST de recherche d'un utilisateur par son login
      */
-    //@GetMapping(value = "/users/{loginName}")
-    public ResponseEntity<User> findUserByLogin(@PathVariable("loginName") String login) throws ResourceNotFoundException {
-        Optional<User> userFound = userService.findByLogin(login);
-        return new ResponseEntity<User>(userFound.get(), HttpStatus.FOUND);
+    @GetMapping(value = "/users/login/{loginName}")
+    public ResponseEntity<User> findUserByLogin(@PathVariable("loginName") String loginName) throws ResourceNotFoundException {
+        Optional<User> userFound = userService.findByLogin(loginName);
+        return new ResponseEntity<>(userFound.get(), HttpStatus.FOUND);
     }
 
 
