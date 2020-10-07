@@ -94,7 +94,8 @@ Et pour indiquer le contrôleur à tester, il faut utiliser l'annotation **@WebM
 * **@MockBean** pour créer un mock de la couche de service.
 *	**@RunWith(SpringRunner.class)** établir le lien entre Spring et Junit
 
-2)	**Gestion des tests d’intégration**
+2)	**Gestion des tests d’intégration**  
+En cours d'implementation....
 
 Références
 -
