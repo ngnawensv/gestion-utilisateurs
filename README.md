@@ -22,13 +22,13 @@ Il est question de développer un portail web d'inscription et de connexion en u
 * Base de données embarquée : MySql
 * IDE : IntelliJI DEA Utimate
  
- Mise en place de l'architecturede l'application
+ Les Taches realisées
 -
 Pour créer l’architecture de base de l’application à partir de Spring Boot, plusieurs façon s’offre à nous :  A partir d’un IDE à l’instar de Spring Tools Suite ou à partir du générateur fourni par Spring Boot à l'adresse <https://start.spring.io/> (Préférée).
 
  Creation des couche de l'application
 -
-1.	**Création du modèle (couche entities) **: User et Role
+1.	**Création du modèle (couche entities)**: User et Role
 2.	**Création de la base de données**  
 On va initialiser la base de données par des scripts et se connecter dessus sans faire aucune déclaration ni aucune configuration de la data source. C'est un des avantages de Spring Boot. Ici aucune configuration d’Hibernate pour le mapping objet relationnel. La simple déclaration de la base de données MySQL dans le pom.xml fait que Spring Boot configure HibernateEntityManager pour moi. 
 3.	**Création de la couche d’accès aux données (DAO/Repository)** : UserDao et RoleDao
@@ -96,6 +96,9 @@ Et pour indiquer le contrôleur à tester, il faut utiliser l'annotation **@WebM
 
 2)	**Gestion des tests d’intégration**
 
+Références
+-
+<https://bnguimgo.developpez.com/tutoriels/spring/services-rest-avec-springboot-et-spring-resttemplate/?page=premiere-partie-le-serveur>
 
 
 
