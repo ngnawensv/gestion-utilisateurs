@@ -49,16 +49,27 @@ public class UserServiceImpl implements UserService {
     private RoleDao roleDao;
 
     @Override
-    public Collection<User> getAllUsers() {
-        return IteratorUtils.toList(userDao.findAll().iterator());
+    public Collection<User> getAllUsers() throws ResourceNotFoundException {
+        Collection<User> users = userDao.findAll();
+        if (users.isEmpty()) {
+            logger.warn("Not users found ");
+            throw new ResourceNotFoundException("Not users found ", HttpStatus.NOT_FOUND);
+        }
+        logger.info("Users List :");
+        users.forEach(user -> {
+            logger.info(user.toString());
+        });
+        return IteratorUtils.toList(users.iterator());
     }
 
     @Override
     public Optional<User> findUserById(Long id) throws ResourceNotFoundException {
         Optional<User> userFound = userDao.findById(id);
         if (userFound.isEmpty()) {
-            throw new ResourceNotFoundException(" Utilisateur introuvable", "L'utilisateur avec l' id " + id+" iniexistant",HttpStatus.NOT_FOUND);
+            logger.warn("User not  found ");
+            throw new ResourceNotFoundException("User not found", HttpStatus.NOT_FOUND);
         }
+        logger.info("User:  " + userFound);
         return userFound;
     }
 
@@ -75,42 +86,42 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = false)
     public User saveOrUpdateUser(User user) throws ResourceNotFoundException {
         try {
-            if(null==user.getId()){ //Pas d'id---> création d'un user
+            if (null == user.getId()) { //Pas d'id---> création d'un user
                 addUserRole(user);//Ajout d'un role par defaut
                 user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            }else{ //sinon,mise à jour d'un user
-                Optional<User> userFromDB=findUserById(user.getId());
-                if(!bCryptPasswordEncoder.matches(user.getPassword(),userFromDB.get().getPassword())){
+            } else { //sinon,mise à jour d'un user
+                Optional<User> userFromDB = findUserById(user.getId());
+                if (!bCryptPasswordEncoder.matches(user.getPassword(), userFromDB.get().getPassword())) {
                     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));//MAJ du mot de passe s'il a été modifié
-                }else {
+                } else {
                     user.setPassword(userFromDB.get().getPassword());//Sinon, on remet le password déjà haché
                 }
                 updateUserRole(user);//On extrait le rôle en cas de mise à jour
             }
             User result = userDao.save(user);
-            return  result;
+            return result;
         } catch (DataIntegrityViolationException ex) {
-            logger.error("Utilisateur non existant",ex);
-            throw new ResourceNotFoundException("DuplicateValueError", "Un utilisateur existe déjà avec le compte : "+user.getLogin(), HttpStatus.CONFLICT);
-        }catch (ResourceNotFoundException e) {
+            logger.error("Utilisateur non existant", ex);
+            throw new ResourceNotFoundException("DuplicateValueError", "Un utilisateur existe déjà avec le compte : " + user.getLogin(), HttpStatus.CONFLICT);
+        } catch (ResourceNotFoundException e) {
             logger.error("Utilisateur non existant", e);
-            throw new ResourceNotFoundException("UserNotFound", "Aucun utilisateur avec l'identifiant: "+user.getId(), HttpStatus.NOT_FOUND);
-        }catch (Exception ex) {
+            throw new ResourceNotFoundException("UserNotFound", "Aucun utilisateur avec l'identifiant: " + user.getId(), HttpStatus.NOT_FOUND);
+        } catch (Exception ex) {
             logger.error("Erreur technique de création ou de mise à jour de l'utilisateur", ex);
-            throw new ResourceNotFoundException("SaveOrUpdateUserError", "Erreur technique de création ou de mise à jour de l'utilisateur: "+user.getLogin(), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ResourceNotFoundException("SaveOrUpdateUserError", "Erreur technique de création ou de mise à jour de l'utilisateur: " + user.getLogin(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
     @Transactional(readOnly = false)
     public void deleteUser(Long id) throws ResourceNotFoundException {
-        try{
+        try {
             userDao.deleteById(id);
-        }catch(EmptyResultDataAccessException ex){
-            logger.error(String.format("Aucun utilisateur n'existe avec l'identifiant: "+id, ex));
-            throw new ResourceNotFoundException("DeleteUserError", "Erreur de suppression de l'utilisateur avec l'identifiant: "+id, HttpStatus.NOT_FOUND);
-        }catch(Exception ex){
-            throw new ResourceNotFoundException("DeleteUserError", "Erreur de suppression de l'utilisateur avec l'identifiant: "+id, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (EmptyResultDataAccessException ex) {
+            logger.error(String.format("Aucun utilisateur n'existe avec l'identifiant: " + id, ex));
+            throw new ResourceNotFoundException("DeleteUserError", "Erreur de suppression de l'utilisateur avec l'identifiant: " + id, HttpStatus.NOT_FOUND);
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException("DeleteUserError", "Erreur de suppression de l'utilisateur avec l'identifiant: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -118,7 +129,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findByLoginAndPassword(String login, String password) throws ResourceNotFoundException {
         try {
             Optional<User> userFound = this.findByLogin(login);
-            if(bCryptPasswordEncoder.matches(password, userFound.get().getPassword())) {
+            if (bCryptPasswordEncoder.matches(password, userFound.get().getPassword())) {
                 return userFound;
             } else {
                 throw new ResourceNotFoundException("UserNotFound", "Mot de passe incorrect", HttpStatus.NOT_FOUND);
@@ -126,14 +137,14 @@ public class UserServiceImpl implements UserService {
         } catch (ResourceNotFoundException ex) {
             logger.error("Login ou mot de passe incorrect", ex);
             throw new ResourceNotFoundException("UserNotFound", "Login ou mot de passe incorrect", HttpStatus.NOT_FOUND);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error("Une erreur technique est survenue", ex);
             throw new ResourceNotFoundException("TechnicalError", "Une erreur technique est survenue", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     private void addUserRole(User user) {
-        Set<Role> roles= new HashSet<>();
+        Set<Role> roles = new HashSet<>();
         Role roleUser = new Role("ROLE_USER");//initialisation du rôle ROLE_USER
         roles.add(roleUser);
         user.setActive(0);
@@ -164,16 +175,16 @@ public class UserServiceImpl implements UserService {
     private Set<Role> extractRoleUsingCompareTo_Java8(Set<Role> rolesSetFromUser, Stream<Role> roleStreamFromDB) {
         return roleStreamFromDB
                 .filter(roleFromDB -> rolesSetFromUser.stream()
-                        .anyMatch( roleFromUser -> roleFromUser.compareTo(roleFromDB) == 0))
+                        .anyMatch(roleFromUser -> roleFromUser.compareTo(roleFromDB) == 0))
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
     @SuppressWarnings("unused")
-    private Set<Role>  extractRole_BeforeJava8(Set<Role> rolesSetFromUser, Collection<Role> rolesFromDB) {
+    private Set<Role> extractRole_BeforeJava8(Set<Role> rolesSetFromUser, Collection<Role> rolesFromDB) {
         Set<Role> rolesToAdd = new HashSet<>();
-        for(Role roleFromUser:rolesSetFromUser){
-            for(Role roleFromDB:rolesFromDB){
-                if(roleFromDB.compareTo(roleFromUser)==0){
+        for (Role roleFromUser : rolesSetFromUser) {
+            for (Role roleFromDB : rolesFromDB) {
+                if (roleFromDB.compareTo(roleFromUser) == 0) {
                     rolesToAdd.add(roleFromDB);
                     break;
                 }

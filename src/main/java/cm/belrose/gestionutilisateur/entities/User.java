@@ -5,9 +5,6 @@
  */
 package cm.belrose.gestionutilisateur.entities;
 
-import cm.belrose.gestionutilisateur.dto.UserDTO;
-import cm.belrose.gestionutilisateur.dto.UserRegistrationForm;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -31,16 +28,16 @@ import javax.persistence.Table;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID", updatable = false, nullable = false)
+    @Column(name = "USER_ID")
     private Long id;
 
-    @Column(name = "USER_LOGIN", insertable = true, updatable = true, nullable = false)
+    @Column(name = "USER_LOGIN")
     private String login;
 
-    @Column(name = "USER_PASSWORD", insertable = true, updatable = true, nullable = false)
+    @Column(name = "USER_PASSWORD")
     private String password;
 
-    @Column(name = "USER_ACTIVE", insertable = true, updatable = true, nullable = false)
+    @Column(name = "USER_ACTIVE")
     private Integer active;
 
     @ManyToMany(cascade = CascadeType.DETACH)
@@ -68,7 +65,7 @@ public class User implements Serializable {
         this.login = login;
     }
 
-    /*public User(UserDTO userDTO) {
+    /*public User(UserDto userDTO) {
         this.setId(userDTO.getId());
         this.setLogin(userDTO.getLogin());
         this.setPassword(userDTO.getPassword());

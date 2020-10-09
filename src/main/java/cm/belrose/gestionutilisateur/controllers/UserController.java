@@ -3,6 +3,8 @@ package cm.belrose.gestionutilisateur.controllers;
 import cm.belrose.gestionutilisateur.entities.User;
 import cm.belrose.gestionutilisateur.exception.ResourceNotFoundException;
 import cm.belrose.gestionutilisateur.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,9 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/user/*")
-public class UserController { //pas de logique métier dans le contrôleur, mais, uniquement l'appel des services
+public class UserController {
+
+    private Logger logger= LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -29,9 +33,9 @@ public class UserController { //pas de logique métier dans le contrôleur, mais
      * Service REST d'extraction de tous les utilisateurs
      */
     @GetMapping(value = "/users")
-    public ResponseEntity<Collection<User>> getAllUsers() {
+    public ResponseEntity<Collection<User>> getAllUsers() throws ResourceNotFoundException{
         Collection<User> users = userService.getAllUsers();
-        return new ResponseEntity<Collection<User>>(users, HttpStatus.FOUND);
+        return new ResponseEntity<>(users, HttpStatus.FOUND);
     }
 
     /**
@@ -50,7 +54,7 @@ public class UserController { //pas de logique métier dans le contrôleur, mais
     @PutMapping(value = "/users")
     public ResponseEntity<User> updateUser(@RequestBody User user) throws ResourceNotFoundException {
         User userUpdated = userService.saveOrUpdateUser(user);
-        return new ResponseEntity<User>(userUpdated, HttpStatus.OK);
+        return new ResponseEntity<>(userUpdated, HttpStatus.OK);
     }
 
     /**

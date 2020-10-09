@@ -27,6 +27,11 @@ public class ResourceNotFoundException extends Exception {
     	super(message);
         this.errorCode = errorCode;
     }
+
+	public ResourceNotFoundException(String errorCode, HttpStatus status) {
+		this.errorCode = errorCode;
+		this.status = status;
+	}
     
     public ResourceNotFoundException(String errorCode, String message, HttpStatus status) {
     	super(message);

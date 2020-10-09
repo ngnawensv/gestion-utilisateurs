@@ -49,6 +49,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
         <!--		Pour utiliser les Collections Apache-->
         <!-- Permet l'utilisation des collections Apache -->
         <dependency>

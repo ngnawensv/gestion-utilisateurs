@@ -18,7 +18,7 @@ import java.util.Optional;
 //@Service(value = "userService")
 public interface UserService {
 
-    Collection<User> getAllUsers();
+    Collection<User> getAllUsers()throws ResourceNotFoundException;
 
     Optional<User> findUserById(Long id) throws ResourceNotFoundException;
 
