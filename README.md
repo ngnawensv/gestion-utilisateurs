@@ -12,7 +12,7 @@ Il est question de développer un portail web d'inscription et de connexion en u
 * Mise à jour de l'utilisateur 
 * Suppression d'un utilisateur
 
-![page_connexion](C:/Users/PC-NGNAWEN/Pictures/page_connexion.png")
+![page_connexion]("https://www.flickr.com/photos/190559299@N02/50443625781/in/dateposted-public/")
 
  Outils et technologies utilisées
 -
