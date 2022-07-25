@@ -5,8 +5,8 @@
  */
 package cm.belrose.gestionutilisateur.services;
 
-import cm.belrose.gestionutilisateur.entities.Role;
-import org.springframework.stereotype.Service;
+import cm.belrose.gestionutilisateur.entities.Role1;
+import cm.belrose.gestionutilisateur.exception.ResourceNotFoundException;
 
 import java.util.Collection;
 import java.util.stream.Stream;
@@ -18,10 +18,12 @@ import java.util.stream.Stream;
 //@Service
 public interface RoleService {
 
-    Role FindByRoleName(String roleName);
+    Role1 FindByRoleName(String roleName)throws ResourceNotFoundException;
+
+    Role1 saveOrUpdateRole(Role1 role1) throws ResourceNotFoundException;
 
     // les methodes getAllRoles() et getAllRolesStream() font la meme chose. juste que la deuxieme est du pure java8
-    Collection<Role> getAllRoles();
+    Collection<Role1> getAllRoles();
 
-    Stream<Role> getAllRolesStream();
+    Stream<Role1> getAllRolesStream();
 }

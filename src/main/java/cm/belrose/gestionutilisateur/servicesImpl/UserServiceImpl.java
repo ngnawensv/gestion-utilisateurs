@@ -15,8 +15,8 @@ import java.util.stream.Stream;
 
 import cm.belrose.gestionutilisateur.dao.RoleDao;
 import cm.belrose.gestionutilisateur.dao.UserDao;
-import cm.belrose.gestionutilisateur.entities.Role;
-import cm.belrose.gestionutilisateur.entities.User;
+import cm.belrose.gestionutilisateur.entities.Role1;
+import cm.belrose.gestionutilisateur.entities.User1;
 import cm.belrose.gestionutilisateur.exception.ResourceNotFoundException;
 import cm.belrose.gestionutilisateur.services.UserService;
 import org.apache.commons.collections4.IteratorUtils;
@@ -49,13 +49,13 @@ public class UserServiceImpl implements UserService {
     private RoleDao roleDao;
 
     @Override
-    public Collection<User> getAllUsers() throws ResourceNotFoundException {
-        Collection<User> users = userDao.findAll();
+    public Collection<User1> getAllUsers() throws ResourceNotFoundException {
+        Collection<User1> users = userDao.findAll();
         if (users.isEmpty()) {
             logger.warn("Not users found ");
             throw new ResourceNotFoundException("Not users found ", HttpStatus.NOT_FOUND);
         }
-        logger.info("Users List :");
+        logger.info("User1 List :");
         users.forEach(user -> {
             logger.info(user.toString());
         });
@@ -63,52 +63,52 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findUserById(Long id) throws ResourceNotFoundException {
-        Optional<User> userFound = userDao.findById(id);
+    public Optional<User1> findUserById(Long id) throws ResourceNotFoundException {
+        Optional<User1> userFound = userDao.findById(id);
         if (userFound.isEmpty()) {
-            logger.warn("User not  found ");
-            throw new ResourceNotFoundException("User not found", HttpStatus.NOT_FOUND);
+            logger.warn("User1 not  found ");
+            throw new ResourceNotFoundException("User1 not found", HttpStatus.NOT_FOUND);
         }
-        logger.info("User:  " + userFound);
+        logger.info("User1:  " + userFound);
         return userFound;
     }
 
     @Override
-    public Optional<User> findByLogin(String login) throws ResourceNotFoundException {
-        Optional<User> userFound = userDao.findByLogin(login);
+    public Optional<User1> findByLogin(String login) throws ResourceNotFoundException {
+        Optional<User1> userFound = userDao.findByLogin(login);
         if (userFound.isEmpty()) {
-            throw new ResourceNotFoundException("User Not Found", "L'utilisateur avec ce login n'existe pas : " + login);
+            throw new ResourceNotFoundException("User1 Not Found", "L'utilisateur avec ce login n'existe pas : " + login);
         }
         return userFound;
     }
 
     @Override
     @Transactional(readOnly = false)
-    public User saveOrUpdateUser(User user) throws ResourceNotFoundException {
+    public User1 saveOrUpdateUser(User1 user1) throws ResourceNotFoundException {
         try {
-            if (null == user.getId()) { //Pas d'id---> création d'un user
-                addUserRole(user);//Ajout d'un role par defaut
-                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            } else { //sinon,mise à jour d'un user
-                Optional<User> userFromDB = findUserById(user.getId());
-                if (!bCryptPasswordEncoder.matches(user.getPassword(), userFromDB.get().getPassword())) {
-                    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));//MAJ du mot de passe s'il a été modifié
+            if (null == user1.getId()) { //Pas d'id---> création d'un user1
+                addUserRole(user1);//Ajout d'un role par defaut
+                user1.setPassword(bCryptPasswordEncoder.encode(user1.getPassword()));
+            } else { //sinon,mise à jour d'un user1
+                Optional<User1> userFromDB = findUserById(user1.getId());
+                if (!bCryptPasswordEncoder.matches(user1.getPassword(), userFromDB.get().getPassword())) {
+                    user1.setPassword(bCryptPasswordEncoder.encode(user1.getPassword()));//MAJ du mot de passe s'il a été modifié
                 } else {
-                    user.setPassword(userFromDB.get().getPassword());//Sinon, on remet le password déjà haché
+                    user1.setPassword(userFromDB.get().getPassword());//Sinon, on remet le password déjà haché
                 }
-                updateUserRole(user);//On extrait le rôle en cas de mise à jour
+                updateUserRole(user1);//On extrait le rôle en cas de mise à jour
             }
-            User result = userDao.save(user);
+            User1 result = userDao.save(user1);
             return result;
         } catch (DataIntegrityViolationException ex) {
             logger.error("Utilisateur non existant", ex);
-            throw new ResourceNotFoundException("DuplicateValueError", "Un utilisateur existe déjà avec le compte : " + user.getLogin(), HttpStatus.CONFLICT);
+            throw new ResourceNotFoundException("DuplicateValueError", "Un utilisateur existe déjà avec le compte : " + user1.getLogin(), HttpStatus.CONFLICT);
         } catch (ResourceNotFoundException e) {
             logger.error("Utilisateur non existant", e);
-            throw new ResourceNotFoundException("UserNotFound", "Aucun utilisateur avec l'identifiant: " + user.getId(), HttpStatus.NOT_FOUND);
+            throw new ResourceNotFoundException("UserNotFound", "Aucun utilisateur avec l'identifiant: " + user1.getId(), HttpStatus.NOT_FOUND);
         } catch (Exception ex) {
             logger.error("Erreur technique de création ou de mise à jour de l'utilisateur", ex);
-            throw new ResourceNotFoundException("SaveOrUpdateUserError", "Erreur technique de création ou de mise à jour de l'utilisateur: " + user.getLogin(), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ResourceNotFoundException("SaveOrUpdateUserError", "Erreur technique de création ou de mise à jour de l'utilisateur: " + user1.getLogin(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -126,9 +126,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByLoginAndPassword(String login, String password) throws ResourceNotFoundException {
+    @Transactional(readOnly = false)
+    public void addRoleToUser(String login, String roleName) {
+        Role1 role=roleDao.findByRoleName(roleName);
+        User1 user1=userDao.findByLogin(login).get();
+        user1.getRoles().add(role);
+
+    }
+
+    @Override
+    public Optional<User1> findByLoginAndPassword(String login, String password) throws ResourceNotFoundException {
         try {
-            Optional<User> userFound = this.findByLogin(login);
+            Optional<User1> userFound = this.findByLogin(login);
             if (bCryptPasswordEncoder.matches(password, userFound.get().getPassword())) {
                 return userFound;
             } else {
@@ -143,27 +152,26 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private void addUserRole(User user) {
-        Set<Role> roles = new HashSet<>();
-        Role roleUser = new Role("ROLE_USER");//initialisation du rôle ROLE_USER
-        roles.add(roleUser);
-        user.setActive(0);
-
-        Set<Role> roleFromDB = extractRole_Java8(roles, roleDao.getAllRolesStream());
-        user.setRoles(roleFromDB);
+    private void addUserRole(User1 user1) {
+        Set<Role1> roles = new HashSet<>();
+        Role1 role1User = new Role1("ROLE_USER");//initialisation du rôle ROLE_USER
+        roles.add(role1User);
+        user1.setActive(0);
+        Set<Role1> role1FromDB = extractRole_Java8(roles, roleDao.getAllRolesStream());
+        user1.setRoles(role1FromDB);
     }
 
 
-    private void updateUserRole(User user) {
+    private void updateUserRole(User1 user1) {
 
-        Set<Role> roleFromDB = extractRole_Java8(user.getRoles(), roleDao.getAllRolesStream());
-        user.setRoles(roleFromDB);
+        Set<Role1> role1FromDB = extractRole_Java8(user1.getRoles(), roleDao.getAllRolesStream());
+        user1.setRoles(role1FromDB);
     }
 
-    private Set<Role> extractRole_Java8(Set<Role> rolesSetFromUser, Stream<Role> roleStreamFromDB) {
+    private Set<Role1> extractRole_Java8(Set<Role1> role1SetFromUser, Stream<Role1> roleStreamFromDB) {
         // Collect UI role names
-        Set<String> uiRoleNames = rolesSetFromUser.stream()
-                .map(Role::getRoleName)
+        Set<String> uiRoleNames = role1SetFromUser.stream()
+                .map(Role1::getRoleName)
                 .collect(Collectors.toCollection(HashSet::new));
         // Filter DB roles
         return roleStreamFromDB
@@ -172,25 +180,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @SuppressWarnings("unused")
-    private Set<Role> extractRoleUsingCompareTo_Java8(Set<Role> rolesSetFromUser, Stream<Role> roleStreamFromDB) {
+    private Set<Role1> extractRoleUsingCompareTo_Java8(Set<Role1> role1SetFromUser, Stream<Role1> roleStreamFromDB) {
         return roleStreamFromDB
-                .filter(roleFromDB -> rolesSetFromUser.stream()
+                .filter(roleFromDB -> role1SetFromUser.stream()
                         .anyMatch(roleFromUser -> roleFromUser.compareTo(roleFromDB) == 0))
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
     @SuppressWarnings("unused")
-    private Set<Role> extractRole_BeforeJava8(Set<Role> rolesSetFromUser, Collection<Role> rolesFromDB) {
-        Set<Role> rolesToAdd = new HashSet<>();
-        for (Role roleFromUser : rolesSetFromUser) {
-            for (Role roleFromDB : rolesFromDB) {
-                if (roleFromDB.compareTo(roleFromUser) == 0) {
-                    rolesToAdd.add(roleFromDB);
+    private Set<Role1> extractRole_BeforeJava8(Set<Role1> role1SetFromUser, Collection<Role1> role1FromDB) {
+        Set<Role1> role1ToAdd = new HashSet<>();
+        for (Role1 role1FromUser : role1SetFromUser) {
+            for (Role1 roleFromDB : role1FromDB) {
+                if (roleFromDB.compareTo(role1FromUser) == 0) {
+                    role1ToAdd.add(roleFromDB);
                     break;
                 }
             }
         }
-        return rolesToAdd;
+        return role1ToAdd;
     }
 
     public UserServiceImpl() {

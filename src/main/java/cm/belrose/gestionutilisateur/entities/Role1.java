@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlElement;
  */
 @Entity
 @Table(name = "ROLE")
-public class Role implements Serializable {
+public class Role1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,11 +28,13 @@ public class Role implements Serializable {
     @Column(name = "ROLE_NAME", updatable = true, nullable = false)
     private String roleName;
 
-    public Role() {
+    public Role1() {
         super();
     }
 
-    public Role(String roleName) {
+
+
+    public Role1(String roleName) {
         super();
         this.roleName = roleName;
     }
@@ -74,7 +76,7 @@ public class Role implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Role other = (Role) obj;
+        final Role1 other = (Role1) obj;
         if (!Objects.equals(this.roleName, other.roleName)) {
             return false;
         }
@@ -84,13 +86,13 @@ public class Role implements Serializable {
         return true;
     }
 
-    public int compareTo(Role role) {
-        return this.roleName.compareTo(role.getRoleName());
+    public int compareTo(Role1 role1) {
+        return this.roleName.compareTo(role1.getRoleName());
     }
 
     @Override
     public String toString() {
-        return "Role{" +
+        return "Role1{" +
                 "id=" + id +
                 ", roleName='" + roleName + '\'' +
                 '}';

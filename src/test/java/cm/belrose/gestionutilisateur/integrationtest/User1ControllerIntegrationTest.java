@@ -3,7 +3,6 @@ package cm.belrose.gestionutilisateur.integrationtest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import cm.belrose.gestionutilisateur.entities.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -12,12 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Collection;
 
 /**
  * @SpringBootTest: -Declanche le demarrage du serveur d'application sur un port libre,
@@ -30,8 +25,8 @@ import java.util.Collection;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application.properties")
-public class UserControllerIntegrationTest {
-    private static final Logger logger = LoggerFactory.getLogger(UserControllerIntegrationTest.class);
+public class User1ControllerIntegrationTest {
+    private static final Logger logger = LoggerFactory.getLogger(User1ControllerIntegrationTest.class);
     //Injection d'une dépendance enregistrée par @SpringBootTest pour écrire les requêtes HTTP
     @Autowired
     private TestRestTemplate restTemplate;
@@ -49,7 +44,7 @@ public class UserControllerIntegrationTest {
     public void testFindAllUsers() throws Exception {
        // ResponseEntity<Object> responseEntity = restTemplate.getForEntity(getURLWithPort("/gestionutilisateur/user/users"), Object.class);
 
-       // Collection<User> userCollections = (Collection<User>) responseEntity.getBody();
+       // Collection<User1> userCollections = (Collection<User1>) responseEntity.getBody();
        // logger.info("Utilisateur trouvé : " + userCollections.toString());
 
 

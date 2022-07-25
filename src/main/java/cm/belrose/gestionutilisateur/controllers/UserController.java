@@ -1,6 +1,6 @@
 package cm.belrose.gestionutilisateur.controllers;
 
-import cm.belrose.gestionutilisateur.entities.User;
+import cm.belrose.gestionutilisateur.entities.User1;
 import cm.belrose.gestionutilisateur.exception.ResourceNotFoundException;
 import cm.belrose.gestionutilisateur.services.UserService;
 import org.slf4j.Logger;
@@ -33,8 +33,8 @@ public class UserController {
      * Service REST d'extraction de tous les utilisateurs
      */
     @GetMapping(value = "/users")
-    public ResponseEntity<Collection<User>> getAllUsers() throws ResourceNotFoundException{
-        Collection<User> users = userService.getAllUsers();
+    public ResponseEntity<Collection<User1>> getAllUsers() throws ResourceNotFoundException{
+        Collection<User1> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.FOUND);
     }
 
@@ -43,18 +43,18 @@ public class UserController {
      */
     @PostMapping(value = "/users")
     @Transactional
-    public ResponseEntity<User> saveUser(@RequestBody User user) throws ResourceNotFoundException {
-        User userSaved = userService.saveOrUpdateUser(user);
-        return new ResponseEntity<User>(userSaved, HttpStatus.CREATED);
+    public ResponseEntity<User1> saveUser(@RequestBody User1 user1) throws ResourceNotFoundException {
+        User1 user1Saved = userService.saveOrUpdateUser(user1);
+        return new ResponseEntity<User1>(user1Saved, HttpStatus.CREATED);
     }
 
     /**
      * Service REST de modification d'un utilisateur
      */
     @PutMapping(value = "/users")
-    public ResponseEntity<User> updateUser(@RequestBody User user) throws ResourceNotFoundException {
-        User userUpdated = userService.saveOrUpdateUser(user);
-        return new ResponseEntity<>(userUpdated, HttpStatus.OK);
+    public ResponseEntity<User1> updateUser(@RequestBody User1 user1) throws ResourceNotFoundException {
+        User1 user1Updated = userService.saveOrUpdateUser(user1);
+        return new ResponseEntity<>(user1Updated, HttpStatus.OK);
     }
 
     /**
@@ -67,14 +67,14 @@ public class UserController {
     }
 
     @GetMapping(value = "/users/login")
-    public ResponseEntity<User> findUserByLoginAndPassword(@RequestBody User user) throws ResourceNotFoundException {
-        Optional<User> userFound = userService.findByLoginAndPassword(user.getLogin(), user.getPassword());
-        return new ResponseEntity<User>(userFound.get(), HttpStatus.FOUND);
+    public ResponseEntity<User1> findUserByLoginAndPassword(@RequestBody User1 user1) throws ResourceNotFoundException {
+        Optional<User1> userFound = userService.findByLoginAndPassword(user1.getLogin(), user1.getPassword());
+        return new ResponseEntity<User1>(userFound.get(), HttpStatus.FOUND);
     }
 
     @GetMapping(value = "/users/id/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable("id") Long id) throws ResourceNotFoundException {
-        Optional<User> userFound = userService.findUserById(id);
+    public ResponseEntity<User1> findUserById(@PathVariable("id") Long id) throws ResourceNotFoundException {
+        Optional<User1> userFound = userService.findUserById(id);
         return new ResponseEntity<>(userFound.get(), HttpStatus.FOUND);
     }
 
@@ -82,8 +82,8 @@ public class UserController {
      * Service REST de recherche d'un utilisateur par son login
      */
     @GetMapping(value = "/users/login/{loginName}")
-    public ResponseEntity<User> findUserByLogin(@PathVariable("loginName") String loginName) throws ResourceNotFoundException {
-        Optional<User> userFound = userService.findByLogin(loginName);
+    public ResponseEntity<User1> findUserByLogin(@PathVariable("loginName") String loginName) throws ResourceNotFoundException {
+        Optional<User1> userFound = userService.findByLogin(loginName);
         return new ResponseEntity<>(userFound.get(), HttpStatus.FOUND);
     }
 

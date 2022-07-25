@@ -2,6 +2,7 @@ package cm.belrose.gestionutilisateur.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +57,18 @@ public class ExceptionHandlerControllerAdvice {
         ExceptionResponse error = new ExceptionResponse();
         error.setErrorCode("Technical Error");
         error.setErrorMessage(ex.getMessage());
+        error.setRequestURL(req.getRequestURL().toString());
+        return error ;
+
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)//toutes les autres erreurs non gérées sont interceptées ici
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ExceptionResponse notFoundUserName(UsernameNotFoundException ex,HttpServletRequest req) {
+        ExceptionResponse error = new ExceptionResponse();
+        //error.setStatus(ex.getStatus());
+        //error.setErrorCode(HttpStatus.NOT_FOUND.value()+":"+ex.getErrorCode());
+        error.setErrorMessage(ex.getMessage()+" "+HttpStatus.INTERNAL_SERVER_ERROR.value()+" "+HttpStatus.INTERNAL_SERVER_ERROR );
         error.setRequestURL(req.getRequestURL().toString());
         return error ;
 

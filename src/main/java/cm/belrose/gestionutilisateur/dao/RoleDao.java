@@ -7,7 +7,7 @@ package cm.belrose.gestionutilisateur.dao;
 
 import java.util.stream.Stream;
 
-import cm.belrose.gestionutilisateur.entities.Role;
+import cm.belrose.gestionutilisateur.entities.Role1;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,11 +17,11 @@ import org.springframework.stereotype.Repository;
  * @author PC-NGNAWEN
  */
 @Repository
-public interface RoleDao extends JpaRepository<Role, Long> {
+public interface RoleDao extends JpaRepository<Role1, Long> {
 
-    Role findByRoleName(String roleName);
+    Role1 findByRoleName(String roleName);
 
-    @Query("select role from Role role")
-    Stream<Role> getAllRolesStream(); //On place la liste des roles dans un Stream
+    @Query("select role from Role1 role")
+    Stream<Role1> getAllRolesStream(); //On place la liste des roles dans un Stream
 
 }

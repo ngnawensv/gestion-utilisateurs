@@ -9,13 +9,12 @@ import static org.mockito.Mockito.verify;
 
 import cm.belrose.gestionutilisateur.dao.RoleDao;
 import cm.belrose.gestionutilisateur.dao.UserDao;
-import cm.belrose.gestionutilisateur.entities.Role;
-import cm.belrose.gestionutilisateur.entities.User;
+import cm.belrose.gestionutilisateur.entities.Role1;
+import cm.belrose.gestionutilisateur.entities.User1;
 import cm.belrose.gestionutilisateur.servicesImpl.UserServiceImpl;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +28,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.*;
 
 @RunWith(SpringRunner.class)
-public class UserServiceImplTest {
+public class User1ServiceImplTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImplTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(User1ServiceImplTest.class);
 
     /**
      * pour exécuter le service, nous avons besoin d'un objet instance de service.
@@ -76,21 +75,21 @@ public class UserServiceImplTest {
 
     }
 
-    //User user = new User("Dupont", "password", 1);
+    //User1 user = new User1("Dupont", "password", 1);
 
     @Test
     public void testFindAllUsers() throws Exception {
         logger.info("testFindAllUsers");
-        User user = new User("Dupont", "password", 1);
-        User user1 = new User("Samuel", "password", 1);
-        Role role = new Role("USER_ROLE");
-        Set<Role> roles = new HashSet<>();
+        User1 user = new User1("Dupont", "password", 1);
+        User1 user11 = new User1("Samuel", "password", 1);
+        Role1 role = new Role1("USER_ROLE");
+        Set<Role1> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
-        List<User> allUsers = Arrays.asList(user, user1);
+        List<User1> allUsers = Arrays.asList(user, user11);
         logger.info(String.valueOf(allUsers));
         Mockito.when(userDao.findAll()).thenReturn(allUsers);
-        Collection<User> users = userService.getAllUsers();
+        Collection<User1> users = userService.getAllUsers();
         logger.info(String.valueOf(allUsers));
         assertNotNull(users);
         assertEquals(users, allUsers);
@@ -100,51 +99,51 @@ public class UserServiceImplTest {
 
     @Test
     public void testSaveUser() throws Exception {
-        User user = new User("Dupont", "password", 1);
-        User userMock = new User(1L, "Dupont", "password", 1);
-        Mockito.when(userDao.save((user))).thenReturn(userMock);
-        User userSaved = userService.saveOrUpdateUser(user);
-        logger.info(String.valueOf(userSaved));
-        assertNotNull(userSaved);
-        assertEquals(userMock.getId(), userSaved.getId());
-        assertEquals(userMock.getLogin(), userSaved.getLogin());
-        verify(userDao).save(any(User.class));
+        User1 user1 = new User1("Dupont", "password", 1);
+        User1 user1Mock = new User1(1L, "Dupont", "password", 1);
+        Mockito.when(userDao.save((user1))).thenReturn(user1Mock);
+        User1 user1Saved = userService.saveOrUpdateUser(user1);
+        logger.info(String.valueOf(user1Saved));
+        assertNotNull(user1Saved);
+        assertEquals(user1Mock.getId(), user1Saved.getId());
+        assertEquals(user1Mock.getLogin(), user1Saved.getLogin());
+        verify(userDao).save(any(User1.class));
     }
 
     @Test
     public void testFindUserByLogin() throws Exception {
-        User user = new User("Dupont", "password", 1);
-        Mockito.when(userDao.findByLogin(user.getLogin())).thenReturn(Optional.of(user));
-        User userFromDB = userService.findByLogin(user.getLogin()).get();
-        assertNotNull(userFromDB);
-        assertEquals(userFromDB.getLogin(), user.getLogin());
+        User1 user1 = new User1("Dupont", "password", 1);
+        Mockito.when(userDao.findByLogin(user1.getLogin())).thenReturn(Optional.of(user1));
+        User1 user1FromDB = userService.findByLogin(user1.getLogin()).get();
+        assertNotNull(user1FromDB);
+        assertEquals(user1FromDB.getLogin(), user1.getLogin());
         verify(userDao).findByLogin(any(String.class));
     }
 
     @Test
     public void testDelete() throws Exception {
-        User user = new User("Dupont", "password", 1);
-        User userMock = new User(1L, "Dupont", "password", 1);
-        Mockito.when(userDao.save((user))).thenReturn(userMock);
-        User userSaved = userService.saveOrUpdateUser(user);
-        assertNotNull(userSaved);
-        assertEquals(userMock.getId(), userSaved.getId());
-        userService.deleteUser(userSaved.getId());
+        User1 user1 = new User1("Dupont", "password", 1);
+        User1 user1Mock = new User1(1L, "Dupont", "password", 1);
+        Mockito.when(userDao.save((user1))).thenReturn(user1Mock);
+        User1 user1Saved = userService.saveOrUpdateUser(user1);
+        assertNotNull(user1Saved);
+        assertEquals(user1Mock.getId(), user1Saved.getId());
+        userService.deleteUser(user1Saved.getId());
         verify(userDao).deleteById(any(Long.class));
     }
 
     @Test
     public void testUpdateUser() throws Exception {
-     /*   User userToUpdate = new User(1L, "Dupont","password" , 1);
-        User userUpdated = new User(1L, "Paul", "password", 1);
+     /*   User1 userToUpdate = new User1(1L, "Dupont","password" , 1);
+        User1 userUpdated = new User1(1L, "Paul", "password", 1);
         //Mockito.when(userDao.findById(1L)).thenReturn(Optional.of(userFoundById));
        // Mockito.when(bCryptPasswordEncoder.matches(any(String.class), any(String.class))).thenReturn(false);
         Mockito.when(bCryptPasswordEncoder.encode(any(String.class))).thenReturn("password");
         Mockito.when(userDao.save((userToUpdate))).thenReturn(userUpdated);
-        User userFromDB = userService.saveOrUpdateUser(userToUpdate);
+        User1 userFromDB = userService.saveOrUpdateUser(userToUpdate);
         logger.error(userFromDB.getLogin());
         assertNotNull(userFromDB);
         assertEquals(userUpdated.getLogin(), userFromDB.getLogin());
-        verify(userDao).save(any(User.class));*/
+        verify(userDao).save(any(User1.class));*/
     }
 }

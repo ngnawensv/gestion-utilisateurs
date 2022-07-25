@@ -25,7 +25,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "UTILISATEUR")
-public class User implements Serializable {
+public class User1 implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
@@ -44,39 +44,45 @@ public class User implements Serializable {
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role1> roles = new HashSet<>();
 
-    public User() {
+    public User1() {
         super();
     }
 
-    public User(String login, String password, Integer active) {
+
+    public User1(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public User1(String login, String password, Integer active) {
         this.login = login;
         this.password = password;
         this.active = active;
     }
 
-    public User(Long id, String login) {
+    public User1(Long id, String login) {
         this.id = id;
         this.login = login;
     }
 
-    public User(String login) {
+    public User1(String login) {
         this.login = login;
     }
 
-    /*public User(UserDto userDTO) {
+    /*public User1(UserDto userDTO) {
         this.setId(userDTO.getId());
         this.setLogin(userDTO.getLogin());
         this.setPassword(userDTO.getPassword());
     }*/
 
-    /*public User(UserRegistrationForm userRegistrationForm) {
+    /*public User1(UserRegistrationForm userRegistrationForm) {
         this.setLogin(userRegistrationForm.getLogin());
         this.setPassword(userRegistrationForm.getPassword());
     }*/
 
-    public User(Long id, String login, String password, Integer active) {
+    public User1(Long id, String login, String password, Integer active) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -115,11 +121,11 @@ public class User implements Serializable {
         this.active = active;
     }
 
-    public Set<Role> getRoles() {
+    public Set<Role1> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<Role1> roles) {
         this.roles = roles;
     }
 
@@ -145,7 +151,7 @@ public class User implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final User other = (User) obj;
+        final User1 other = (User1) obj;
         if (!Objects.equals(this.login, other.login)) {
             return false;
         }
@@ -166,7 +172,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "User1{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +

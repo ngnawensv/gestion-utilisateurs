@@ -5,9 +5,8 @@
  */
 package cm.belrose.gestionutilisateur.services;
 
-import cm.belrose.gestionutilisateur.entities.User;
+import cm.belrose.gestionutilisateur.entities.User1;
 import cm.belrose.gestionutilisateur.exception.ResourceNotFoundException;
-import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -18,15 +17,17 @@ import java.util.Optional;
 //@Service(value = "userService")
 public interface UserService {
 
-    Collection<User> getAllUsers()throws ResourceNotFoundException;
+    Collection<User1> getAllUsers()throws ResourceNotFoundException;
 
-    Optional<User> findUserById(Long id) throws ResourceNotFoundException;
-
-    Optional<User> findByLogin(String login) throws ResourceNotFoundException;
-
-    User saveOrUpdateUser(User user) throws ResourceNotFoundException;
+    User1 saveOrUpdateUser(User1 user1) throws ResourceNotFoundException;
 
     void deleteUser(Long id) throws ResourceNotFoundException;
 
-    Optional<User> findByLoginAndPassword(String login, String password) throws ResourceNotFoundException;
+    public void addRoleToUser(String login, String roleName);
+
+    Optional<User1> findUserById(Long id) throws ResourceNotFoundException;
+
+    Optional<User1> findByLogin(String login) throws ResourceNotFoundException;
+
+    Optional<User1> findByLoginAndPassword(String login, String password) throws ResourceNotFoundException;
 }

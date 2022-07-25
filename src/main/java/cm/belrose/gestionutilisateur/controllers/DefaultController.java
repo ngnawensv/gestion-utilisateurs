@@ -31,7 +31,7 @@ public class DefaultController {
      * On peut toutefois utiliser la classe ResponseBody pour traiter les réponses si on n'a pas besoin d'exploiter
      * les codes de réponses HTTP. On peut donc dire que ResponseEntity = ResponseBody + HttpStatus
      */
-    @GetMapping(value = "/")
+    @GetMapping(value = "/default")
     public ResponseEntity<String> pong() {
         logger.info("Démarrage des services OK .....");
         return new ResponseEntity<String>("Réponse du serveur: " + HttpStatus.OK.name(), HttpStatus.OK);
